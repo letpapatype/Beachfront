@@ -34,5 +34,6 @@ jobs:
         pip install pymysql sshtunnel dropbox datetime
     - name: Run Script
       run: |
+        echo "${{ secrets.SSH_PEM_KEY }}" | tr -d '\r' > key.pem
         python3 database_to_tableau.py
 
