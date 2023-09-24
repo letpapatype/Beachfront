@@ -9,7 +9,7 @@ import os
 ssh_host = os.environ['SSH_HOST']
 ssh_port = 8022
 ssh_username = 'beachfrontvr-bi'
-ssh_pem_key = os.environ['SSH_PEM_KEY']
+ssh_pem_key = 'key.pem'
 
 # MySQL server configuration
 mysql_host = os.environ['MYSQL_HOST']
