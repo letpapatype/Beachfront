@@ -3,19 +3,20 @@ from sshtunnel import SSHTunnelForwarder
 import csv
 import dropbox
 import datetime
+import os
 
 # SSH tunnel configuration
-ssh_host = ''
+ssh_host = os.environ['SSH_HOST']
 ssh_port = 8022
 ssh_username = 'beachfrontvr-bi'
-ssh_pem_key = ''
+ssh_pem_key = os.environ['SSH_PEM_KEY']
 
 # MySQL server configuration
-mysql_host = ''
+mysql_host = os.environ['MYSQL_HOST']
 mysql_port = 3306
 mysql_username = 'beachfrontvr-bi'
-mysql_password = ''
-mysql_database = ''
+mysql_password = os.environ['MYSQL_PASSWORD']
+mysql_database = os.environ['MYSQL_DATABASE']
 
 queries = ['customtrack', 'customrates']
 
@@ -69,8 +70,7 @@ for query in queries:
 
 
     #I would then want to take the csv file and upload it to a dropbox folder
-    access_token = ''
-
+    access_token = os.environ['DROPBOX_ACCESS_TOKEN']
     # connect to dropbox
     dbx = dropbox.Dropbox(access_token)
     
