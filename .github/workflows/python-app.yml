@@ -30,8 +30,8 @@ jobs:
         python-version: "3.10"
     - name: Install dependencies
       run: |
-        python3 -m pip install --upgrade pip -y
-        pip install pymysql sshtunnel csv dropbox datetime os -y
+        python3 -m pip install --upgrade pip
+        pip install pymysql sshtunnel dropbox datetime
     - name: Lint with flake8
       run: |
         ./database_to_tableau.py
