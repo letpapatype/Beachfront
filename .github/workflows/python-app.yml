@@ -34,5 +34,5 @@ jobs:
         pip install pymysql sshtunnel dropbox datetime
     - name: Lint with flake8
       run: |
-        ./database_to_tableau.py
+        database_to_tableau.py
 
