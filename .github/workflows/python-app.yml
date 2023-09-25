@@ -3,9 +3,13 @@
 
 name: Dropbox Update
 
+# BEGIN: 7c8f1d3fj5xq
 on:
-  push:
-    branches: [ "main" ]
+  schedule:
+    - cron: "0 * * * *"
+# END: 7c8f1d3fj5xq
+
+
 env:
   SSH_HOST: ${{ secrets.SSH_HOST }}
   SSH_PEM_KEY: ${{ secrets.SSH_PEM_KEY }}
