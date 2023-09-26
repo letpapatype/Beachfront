@@ -71,8 +71,11 @@ for query in queries:
 
     #I would then want to take the csv file and upload it to a dropbox folder
     access_token = os.environ['DROPBOX_ACCESS_TOKEN']
+
+    app_key = os.environ['DROPBOX_APP_KEY']
+    app_secret = os.environ['DROPBOX_APP_SECRET']
     # connect to dropbox
-    dbx = dropbox.Dropbox(access_token)
+    dbx = dropbox.Dropbox(app_key=app_key,app_secret=app_secret)
     
     print("Successfully connected to Dropbox. Removing old file...")
     # remove old file
