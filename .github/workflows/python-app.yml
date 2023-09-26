@@ -17,6 +17,8 @@ env:
   MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
   MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
   DROPBOX_ACCESS_TOKEN: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
+  DROPBOX_APP_KEY: ${{ secrets.DROPBOX_APP_KEY }}
+  DROPBOX_APP_SECRET: ${{ secrets.DROPBOX_APP_SECRET }}
 
 permissions:
   contents: read
