@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
-          pip install pymysql sshtunnel pandas
+          pip install pymysql sshtunnel pandas requests
         #working out of the meet_and_greet folder
 
       - name: Run Script
