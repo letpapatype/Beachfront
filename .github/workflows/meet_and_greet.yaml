@@ -38,5 +38,5 @@ jobs:
 
       - name: Run Script
         run: |
-          echo "${{ secrets.SSH_PEM_KEY }}" | tr -d '\r' > ./meet_and_greet/beachfrontvr.pem
-          python3 ./meet_and_greet/arrival_query.py
+          echo "${{ secrets.SSH_PEM_KEY }}" | tr -d '\r' > beachfrontvr.pem
+          python3 ./arrival_query.py
