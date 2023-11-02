@@ -1,0 +1,42 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Meet and Greet Schedule
+
+on:
+  schedule:
+    - cron: "0 7 * * *"
+
+env:
+  SSH_HOST: ${{ secrets.SSH_HOST }}
+  SSH_PEM_KEY: ${{ secrets.SSH_PEM_KEY }}
+  MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
+  MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+  MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+  BRZW_CLIENT_ID: ${{ secrets.BRZW_CLIENT_ID }}
+  BRZW_CLIENT_SECRET: ${{ secrets.BRZW_CLIENT_SECRET }}
+  SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.1011"
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install pymysql sshtunnel pandas
+        #working out of the meet_and_greet folder
+
+      - name: Run Script
+        run: |
+          echo "${{ secrets.SSH_PEM_KEY }}" | tr -d '\r' > ./meet_and_greet/beachfrontvr.pem
+          python3 ./meet_and_greet/arrival_query.py
