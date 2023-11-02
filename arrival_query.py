@@ -127,75 +127,79 @@ properties = {
     'S702-4': 105
 }
 
-# def get_property_tasks(ref_id):
+def get_property_tasks(ref_id):
 
-#     # Breezeway base URL
-#     brzw_url = 'https://api.breezeway.io'
+    # Breezeway base URL
+    brzw_url = 'https://api.breezeway.io'
 
-#     # get the token from Breezeway
-#     # declare auth variables
-#     client_id = os.environ['BRZW_CLIENT_ID']
-#     client_secret = os.environ['BRZW_CLIENT_SECRET']
+    # get the token from Breezeway
+    # declare auth variables
+    client_id = os.environ['BRZW_CLIENT_ID']
+    client_secret = os.environ['BRZW_CLIENT_SECRET']
 
-#     # get the token
-#     url_for_token = f"{brzw_url}/public/auth/v1/"
+    # get the token
+    url_for_token = f"{brzw_url}/public/auth/v1/"
 
-#     payload = json.dumps({
-#     "client_id": client_id,
-#     "client_secret": client_secret
-#     })
-#     headers = {
-#     'Content-Type': 'application/json'
-#     }
+    payload = json.dumps({
+    "client_id": client_id,
+    "client_secret": client_secret
+    })
+    headers = {
+    'Content-Type': 'application/json'
+    }
 
-#     token_response = requests.request("POST", url_for_token, headers=headers, data=payload)
+    token_response = requests.request("POST", url_for_token, headers=headers, data=payload)
 
-#     if token_response.status_code != 200:
-#         print("Error getting token")
-#         print(token_response.text)
-#         sys.exit(1)
-
-
-
-#     token = token_response.json()['access_token']
-
-#     get_task_url = f"{brzw_url}/public/inventory/v1/task/?reference_property_id={ref_id}"
-
-#     today = datetime.date.today()
-
-#     tomorrow = datetime.date.today() + datetime.timedelta(days=1)
-
-#     payload={
-#         'limit': 100,
-#         'scheduled_date': f'{tomorrow},{tomorrow}'
-#     }
+    if token_response.status_code != 200:
+        print("Error getting token")
+        print(token_response.text)
+        sys.exit(1)
 
 
-#     headers = {
-#         'Authorization': f"JWT {token}"
-#     }
+
+    token = token_response.json()['access_token']
+
+    get_task_url = f"{brzw_url}/public/inventory/v1/task/?reference_property_id={ref_id}"
+
+    today = datetime.date.today()
+
+    """
+    In Dev:
+    get tomorrows date in YYYY-MM-DD format
+    tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+    """
+
+    payload={
+        'limit': 100,
+        'scheduled_date': f'{today},{today}'
+    }
 
 
-#     get_tasks_response = requests.request("GET", get_task_url, headers=headers, params=payload)
+    headers = {
+        'Authorization': f"JWT {token}"
+    }
 
-#     for tasks in get_tasks_response.json()['results']:
-#         if 'Meet and Greet' in tasks['name']:
-#             print(f"Task Name: {tasks['name']}")
-#             if tasks['assignments']:
-#                 assigned_to = tasks['assignments'][0]['name']
-#                 return assigned_to
-#         else:
-#             assigned_to = 'Not Scheduled'
-#             return assigned_to
+
+    get_tasks_response = requests.request("GET", get_task_url, headers=headers, params=payload)
+
+    for tasks in get_tasks_response.json()['results']:
+        if 'Meet and Greet' in tasks['name']:
+            print(f"Task Name: {tasks['name']}")
+            if tasks['assignments']:
+                assigned_to = tasks['assignments'][0]['name']
+                return assigned_to
+        else:
+            assigned_to = 'Not Scheduled'
+            return assigned_to
 
     
 def post_meet_and_greet(arrivals):
 
-    mng_channel = 'C02RRTP6V3L'
+    mng_channel = 'CLXLM8X6J'
 
     url = 'https://slack.com/api/chat.postMessage'
 
-    slack_token = os.environ['SLACK_TOKEN']
+    slack_token = os.environ['SLACK_BOT_TOKEN']
 
     headers = {
         # declare the charset to avoid errors
@@ -235,9 +239,10 @@ def post_meet_and_greet(arrivals):
             },
             "accessory": {
                 "type": "button",
+                "action_id": "schedule_meet_and_greet",
                 "text": {
                     "type": "plain_text",
-                    "text": "Check In",
+                    "text": "Schedule",
                     "emoji": True
                 },
                 "value": f"{row['unit_code']}_{ref_id}_{row['code']}",
@@ -248,8 +253,12 @@ def post_meet_and_greet(arrivals):
 
     
     # export arrival to json
+    """    
+    Dev:
     with open('arrival_data.json', 'w') as outfile:
         json.dump(arrival_data, outfile)
+        
+    """
 
     requests.request("POST", url, headers=headers, data=json.dumps(arrival_data))
 
@@ -297,7 +306,7 @@ try:
             INNER JOIN units u ON u.id = r.cabin_id
         WHERE
             r.status LIKE '%Confirmed%'
-            AND r.checkin_date LIKE '%{tomorrow}%'
+            AND r.checkin_date LIKE '%{today}%'
             AND uc.last_name LIKE c.last_name
             AND uc.first_name LIKE c.first_name
         """
@@ -323,26 +332,26 @@ try:
 
         structured_results['code'] = structured_results['code'].str.extract(r'(\d{6})')
 
-        # # Create a column named assigned_to and set the default value to 'Not Assigned', then call the get_property_tasks function to get the assigned_to value
-        # structured_results['assigned_to'] = 'Not Assigned'
+        #Create a column named assigned_to and set the default value to 'Not Assigned', then call the get_property_tasks function to get the assigned_to value
+        #structured_results['assigned_to'] = 'Not Assigned'
 
-        # for unit in structured_results['unit_code']:
-        #     # find the unit code in the properties dictionary and print the Breezeway ID
-        #     if unit in properties:
-        #         print(f"{unit} Breezeway ID: {properties[unit]}")
-        #         ref_id = properties[unit]
-        #         assigned_to = get_property_tasks(ref_id)
-        #         print(f"{unit} Meet and Greet assigned to: {assigned_to}")
-        #         structured_results.loc[structured_results['unit_code'] == unit, 'assigned_to'] = assigned_to
+        for unit in structured_results['unit_code']:
+            # find the unit code in the properties dictionary and print the Breezeway ID
+            if unit in properties:
+                print(f"{unit} Breezeway ID: {properties[unit]}")
+                ref_id = properties[unit]
+                #assigned_to = get_property_tasks(ref_id)
+                # print(f"{unit} Meet and Greet assigned to: {assigned_to}")
+                #structured_results.loc[structured_results['unit_code'] == unit, 'assigned_to'] = assigned_to
 
-        #     else:
-        #         print(f'Unit code {unit} not found in dictionary')
+            else:
+                print(f'Unit code {unit} not found in dictionary')
 
         print("Closing connection...")
         connection.close()
 
     post_meet_and_greet(structured_results)
-    structured_results.to_csv('structured_results.csv', index=False)
+
 
 
 
