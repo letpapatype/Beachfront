@@ -1,0 +1,27 @@
+version: '3'
+services:
+  aws-lambda-python:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      BRZW_CLIENT_ID: ${BRZW_CLIENT_ID}
+      BRZW_CLIENT_SECRET: ${BRZW_CLIENT_SECRET}
+      SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
+      SLACK_SIGNING_SECRET: ${SLACK_SIGNING_SECRET}
+    restart: always
+    networks:
+      - lambda-network
+
+  ngrok:
+    image: wernight/ngrok
+    restart: always
+    command: ngrok http aws-lambda-python:8080
+    networks:
+      - lambda-network
+    ports:
+      - "4040:4040"
+
+networks:
+  lambda-network:
+    driver: bridge
