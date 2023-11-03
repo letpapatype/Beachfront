@@ -4,7 +4,8 @@
 name: Meet and Greet Schedule
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 14 * * *'
 
 env:
   SSH_HOST: ${{ secrets.SSH_HOST }}
