@@ -251,6 +251,7 @@ def post_meet_and_greet(arrivals):
 
         arrival_data['blocks'].append(arrival)
 
+    print(arrival_data)
     
     # export arrival to json
     """    
@@ -260,7 +261,9 @@ def post_meet_and_greet(arrivals):
         
     """
 
-    requests.request("POST", url, headers=headers, data=json.dumps(arrival_data))
+    response = requests.request("POST", url, headers=headers, data=json.dumps(arrival_data))
+    print(response.text)
+    
 
 
 
@@ -297,7 +300,7 @@ try:
             c.first_name,
             c.last_name,
             u.unit_code,
-            DATE_FORMAT(CONVERT_TZ(r.checkin_time, '+00:00', '-07:00'), '%H:%i:%s') AS checkin_time,
+            DATE_FORMAT(CONVERT_TZ(r.checkin_time, '+00:00', '-08:00'), '%H:%i:%s') AS checkin_time,
             uc.code
         FROM
             reservation r
