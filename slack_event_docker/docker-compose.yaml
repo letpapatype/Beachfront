@@ -5,8 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      BRZW_CLIENT_ID: ${BRZW_CLIENT_ID}
-      BRZW_CLIENT_SECRET: ${BRZW_CLIENT_SECRET}
+      BRZW_CLIENT_ID: ${BRZW_APP}
+      BRZW_CLIENT_SECRET: ${BRZW_SECRET}
       SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
       SLACK_SIGNING_SECRET: ${SLACK_SIGNING_SECRET}
     restart: always

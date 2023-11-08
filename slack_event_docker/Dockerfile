@@ -2,10 +2,10 @@ FROM amazon/aws-lambda-python:3.11
 
 # Set environment var to your function name
 
-ENV BRZW_CLIENT_ID = ""
-ENV BRZW_CLIENT_SECRET = ""
-ENV SLACK_BOT_TOKEN = ""
-ENV SLACK_SIGNING_SECRET = ""
+ENV BRZW_CLIENT_ID = ${BRZW_APP}
+ENV BRZW_CLIENT_SECRET = ${BRZW_SECRET}
+ENV SLACK_BOT_TOKEN = ${SLACK_BOT_TOKEN}
+ENV SLACK_SIGNING_SECRET = ${SLACK_SIGNING_SECRET}
 
 
 # Copy function code and dependencies
