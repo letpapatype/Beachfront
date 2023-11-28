@@ -1,0 +1,35 @@
+name: Arrival/Departure & Vacant Unit
+
+on:
+  schedule:
+    - cron: '5 14 * * *'
+
+env:
+  SSH_HOST: ${{ secrets.SSH_HOST }}
+  SSH_PEM_KEY: ${{ secrets.SSH_PEM_KEY }}
+  MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
+  MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+  MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+  SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+
+      - name: Run Script
+        run: |
+          echo "${{ secrets.SSH_PEM_KEY }}" | tr -d '\r' > beachfrontvr.pem
+          python3 ./arr_dep_vac.py
