@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
-
+          pip install pymysql sshtunnel pandas requests slack_sdk
       - name: Run Script
         run: |
           echo "${{ secrets.SSH_PEM_KEY }}" | tr -d '\r' > beachfrontvr.pem
