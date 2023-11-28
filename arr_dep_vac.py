@@ -7,7 +7,6 @@ from slack_sdk import WebClient
 
 # Slack bot configuration
 slack_bot_token = os.environ['SLACK_BOT_TOKEN']
-slack_channel = os.environ['SLACK_CHANNEL']
 slack_client = WebClient(token=slack_bot_token)
 
 # SSH tunnel configuration
@@ -184,7 +183,7 @@ try:
         """
 
         arrival_results = pd.DataFrame(rows, columns=['unit_code', 'checkin_time'])
-        print("Tomorrows arrivals:")
+        print("Today's arrivals:")
         print(arrival_results)
 
         print("Starting departure query...")
@@ -209,7 +208,7 @@ try:
         print("Successfully executed query...")
 
         departure_results = pd.DataFrame(rows, columns=['unit_code', 'checkout_time'])
-        print("Tomorrow's departures:")
+        print("Today's departures:")
         print(departure_results)
 
         print("Closing connection...")
@@ -308,7 +307,7 @@ arrival_departure_post = slack_client.chat_postMessage(
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f"*Arrivals and Departures* for {tomorrow}",
+                "text": f"*Arrivals and Departures* for {today}",
                 "verbatim": True
             }
         },
@@ -336,7 +335,7 @@ vacant_unit_post = slack_client.chat_postMessage(
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f"*Vacant Unit Report* for {tomorrow}",
+                "text": f"*Vacant Unit Report* for {today}",
                 "verbatim": True
             }
         },
