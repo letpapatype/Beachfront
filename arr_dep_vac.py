@@ -328,22 +328,22 @@ arrival_departure_post = slack_client.chat_postMessage(
 
 assert arrival_departure_post["ok"]
 
-vacant_unit_post = slack_client.chat_postMessage(
-    channel='C04L2BBBYJH',
-    blocks=[
-        {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": f"*Vacant Unit Report* for {today}",
-                "verbatim": True
-            }
-        },
-        {
-            "type": "divider"
-        },
-        empty_units_block        
-    ]
-)
+# vacant_unit_post = slack_client.chat_postMessage(
+#     channel='C04L2BBBYJH',
+#     blocks=[
+#         {
+#             "type": "section",
+#             "text": {
+#                 "type": "mrkdwn",
+#                 "text": f"*Vacant Unit Report* for {today}",
+#                 "verbatim": True
+#             }
+#         },
+#         {
+#             "type": "divider"
+#         },
+#         empty_units_block        
+#     ]
+# )
 
-assert vacant_unit_post["ok"]
+# assert vacant_unit_post["ok"]
