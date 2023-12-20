@@ -328,6 +328,31 @@ arrival_departure_post = slack_client.chat_postMessage(
 
 assert arrival_departure_post["ok"]
 
+print("Sending Departure message to #Housemen...")
+hk_departure_post = slack_client.chat_postMessage(
+    channel='C0LECM2EQ',
+    blocks=[
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": f"*Departures* for {today}",
+                "verbatim": True
+            }
+        },
+        {
+            "type": "divider"
+        },
+        departure_block,
+        {
+            "type": "divider"
+        },
+        same_day_turnover_block     
+    ]
+)
+
+assert hk_departure_post["ok"]
+
 # vacant_unit_post = slack_client.chat_postMessage(
 #     channel='C04L2BBBYJH',
 #     blocks=[
