@@ -234,41 +234,85 @@ except Exception as e:
     print(f"An error occurred: {str(e)}")
 
 arrival_text = ""
+arrival_units_list_C = "Carlsbad:\n"
+arrival_units_list_E = "Encinitas:\n"
+arrival_units_list_P = "Pacific Street:\n"
+arrival_units_list_S = "Strand:\n"
 
 for index, row in arrival_results.iterrows():
-    arrival_text += f"{row['unit_code']} - {row['checkin_time']}\n"
+
+    if row['unit_code'].startswith('C'):
+        arrival_units_list_C += f"{row['unit_code']} - {row['checkin_time']}\n"
+    elif row['unit_code'].startswith('E'):
+        arrival_units_list_E += f"{row['unit_code']} - {row['checkin_time']}\n"
+    elif row['unit_code'].startswith('P'):
+        arrival_units_list_P += f"{row['unit_code']} - {row['checkin_time']}\n"
+    elif row['unit_code'].startswith('S'):
+        arrival_units_list_S += f"{row['unit_code']} - {row['checkin_time']}\n"
+    #arrival_text += f"{row['unit_code']} - {row['checkin_time']}\n"
 
 arrival_block = {
     "type": "section",
     "text": {
         "type": "mrkdwn",
-        "text": f"*Today's Arrivals:*\n{arrival_text}"
+        "text": f"*Today's Arrivals:*\n{arrival_units_list_C}\n{arrival_units_list_E}\n{arrival_units_list_P}\n{arrival_units_list_S}"
     }
 }
 
 departure_text = ""
 
+departure_units_list_C = "Carlsbad:\n"
+departure_units_list_E = "Encinitas:\n"
+departure_units_list_P = "Pacific Street:\n"
+departure_units_list_S = "Strand:\n"
+
 for index, row in departure_results.iterrows():
-    departure_text += f"{row['unit_code']} - {row['checkout_time']}\n"
+
+    if row['unit_code'].startswith('C'):
+        departure_units_list_C += f"{row['unit_code']} - {row['checkout_time']}\n"
+    elif row['unit_code'].startswith('E'):
+        departure_units_list_E += f"{row['unit_code']} - {row['checkout_time']}\n"
+    elif row['unit_code'].startswith('P'):
+        departure_units_list_P += f"{row['unit_code']} - {row['checkout_time']}\n"
+    elif row['unit_code'].startswith('S'):
+        departure_units_list_S += f"{row['unit_code']} - {row['checkout_time']}\n"
+
+
+    # departure_text += f"{row['unit_code']} - {row['checkout_time']}\n"
 
 departure_block = {
     "type": "section",
     "text": {
         "type": "mrkdwn",
-        "text": f"*Today's Departures:*\n{departure_text}"
+        "text": f"*Today's Departures:*\n{departure_units_list_C}\n{departure_units_list_E}\n{departure_units_list_P}\n{departure_units_list_S}"
     }
 }
 
 same_day_turnover_text = ""
+same_day_units_list_C = "Carlsbad:\n"
+same_day_units_list_E = "Encinitas:\n"
+same_day_units_list_P = "Pacific Street:\n"
+same_day_units_list_S = "Strand:\n"
 
 for unit in same_day_turnover:
-    same_day_turnover_text += f"{unit}\n"
+
+    if unit.startswith('C'):
+        same_day_units_list_C += f"{unit}\n"
+    elif unit.startswith('E'):
+        same_day_units_list_E += f"{unit}\n"
+    elif unit.startswith('P'):
+        same_day_units_list_P += f"{unit}\n"
+    elif unit.startswith('S'):
+        same_day_units_list_S += f"{unit}\n"
+
+
+    # same_day_turnover_text += f"{unit}\n"
 
 same_day_turnover_block = {
     "type": "section",
     "text": {
         "type": "mrkdwn",
-        "text": f"*Same Day Turnovers (If Applicable):*\n{same_day_turnover_text}"
+        "text": f"*Same Day Turnovers (If Applicable):*\n{same_day_units_list_C}\n{same_day_units_list_E}\n{same_day_units_list_P}\n{same_day_units_list_S}"
     }
 }
 
