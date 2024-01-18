@@ -29,7 +29,7 @@ text = ''
 checkout_time = ''
 ok_to_post = False
 sales = False
-
+in_or_out = ''
 
 # payload headers
 headers = {
@@ -159,6 +159,8 @@ if 'Dog Fee' in post:
             request_time = line.split(':')[1].strip()
         elif 'Reservation Date' in line:
             res_dates = ':'.join(line.split(':')[1:]).strip()
+        elif 'Total Paid / Cost :' in line:
+            cost = line.split(':')[1].strip()
 
     text = f"Hey <!channel>, dog cleaning has been added to a reservation Dack!\nUnit: {unit}\nName: {name}\nRequest Time: {request_time}\nReservation Dates: {res_dates}"
 
@@ -166,6 +168,10 @@ if 'Dog Fee' in post:
 
 elif 'Early' in post or 'Late' in post:
     print('Found an ECI/LCO Request')
+    if 'Early' in post:
+        in_or_out = 'in'
+    elif 'Late' in post:
+        in_or_out = 'out'
     for line in post.splitlines():
         if 'Unit' in line:
             break_line = line.split(' ')
@@ -184,6 +190,8 @@ elif 'Early' in post or 'Late' in post:
             request_time = line.split(':')[1].strip()
         elif 'Reservation Date' in line:
             res_dates = ':'.join(line.split(':')[1:]).strip()
+        elif 'Total Paid / Cost :' in line:
+            cost = line.split(':')[1].strip()
     
     ok_to_post = True
 
@@ -261,7 +269,7 @@ if ok_to_post == True:
                 "text": "Schedule",
                 "emoji": True
             },
-            "value": f"{property_to_clean}_{checkout_time}_{checkout_date}_{unit}_{pretty_date}",
+            "value": f"{property_to_clean}_{checkout_time}_{checkout_date}_{unit}_{pretty_date}_{cost}_{in_or_out}",
         }
     }
 

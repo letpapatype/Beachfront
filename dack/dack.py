@@ -5,6 +5,7 @@ import os
 import datetime
 from slack_bolt import App
 from slack_bolt.adapter.aws_lambda import SlackRequestHandler
+from crm import get_reservation
 
 # from slack_bolt.adapter.flask import SlackRequestHandler
 # from flask import Flask, request
@@ -120,6 +121,8 @@ def schedule_dog_cleaning(ack, body, logger, client):
     checkout_date = value[2]
     unit = value[3]
     pretty_date = value[4]
+    cost = value[5]
+    in_or_out = value[6]
 
     channel = body['channel']['id']
 
@@ -147,7 +150,7 @@ def schedule_dog_cleaning(ack, body, logger, client):
         "blocks": [
             {
                 "type": "section",
-                "block_id": f"{ts}_{property_to_clean}_{checkout_time}_{checkout_date}_{channel}",
+                "block_id": f"{ts}_{property_to_clean}_{checkout_time}_{checkout_date}_{channel}_{unit}_{cost}_{in_or_out}",
                 "text": {
                     "type": "mrkdwn",
                     "text": f"Hey <@{user}>\n\nSchedule a cleaning for {unit} on {pretty_date} at {checkout_time}?"
@@ -247,6 +250,11 @@ def handle_submission(ack, body, logger, client):
     logger.info(f"checkout_date: {checkout_date}")
     cleaner = body['view']['state']['values']['select-cleaner']['schedule_dog_cleaning']['selected_option']['value']
     logger.info(f"cleaner: {cleaner}")
+    unit = body['view']['blocks'][0]['block_id'].split('_')[5]
+    print(f"unit: {unit}")
+    cost = body['view']['blocks'][0]['block_id'].split('_')[6]
+    print(f"cost: {cost}")
+    in_or_out = body['view']['blocks'][0]['block_id'].split('_')[7]
 
     task_id = create_task(property_to_clean, cleaner, checkout_date, checkout_time)
 
@@ -260,6 +268,20 @@ def handle_submission(ack, body, logger, client):
     )
 
     assert notify_team["ok"]
+
+    reservation, track_url = get_reservation(unit, check_date=checkout_date, in_or_out=in_or_out)
+    print(f"Reservation: {reservation}")
+    print(f"Track URL: {track_url}")
+
+    # sales_channel = 'C0LB0GGQN'
+
+    # sales_notification = client.chat_postMessage(
+    #     channel=sales_channel,
+    #     thread_ts=ts,
+    #     text=f"Hey <!subteam^S05UL6NUWNS>, please make the necessary revisions in Track.\n<{track_url} | View Reservation {reservation}>\nAdditional costs: {cost}"
+    # )
+
+    # assert sales_notification["ok"]
 
 
 def handler(event, context):
