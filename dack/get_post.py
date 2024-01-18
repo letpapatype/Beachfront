@@ -12,7 +12,7 @@ post = input_data['body']
 print(post)
 
 # declare variables
-slack_token = "xoxb-20374840032-6464542244192-eHVaP7zlqjvNiUwXpCQapZgg"
+slack_token = ""
 channel = 'C06CN0WN9AP'
 post_url = 'https://slack.com/api/chat.postMessage'
 unit = ''
