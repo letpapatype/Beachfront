@@ -1,0 +1,12 @@
+certifi==2023.11.17
+charset-normalizer==3.3.2
+DateTime==5.4
+idna==3.6
+logging==0.4.9.6
+pytz==2023.3.post1
+requests==2.31.0
+slack-bolt==1.18.1
+slack_sdk==3.26.2
+urllib3==2.1.0
+zope.interface==6.1
+
