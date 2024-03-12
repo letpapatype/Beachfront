@@ -2,7 +2,7 @@ name: Arrival/Departure & Vacant Unit
 
 on:
   schedule:
-    - cron: '5 15 * * *'
+    - cron: '5 14 * * *'
 
 env:
   SSH_HOST: ${{ secrets.SSH_HOST }}
