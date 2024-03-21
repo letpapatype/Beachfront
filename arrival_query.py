@@ -300,7 +300,7 @@ try:
             c.first_name,
             c.last_name,
             u.unit_code,
-            DATE_FORMAT(CONVERT_TZ(r.checkin_time, '+00:00', '-08:00'), '%H:%i:%s') AS checkin_time,
+            DATE_FORMAT(CONVERT_TZ(r.checkin_time, '+00:00', '-07:00'), '%H:%i:%s') AS checkin_time,
             uc.code
         FROM
             reservation r
