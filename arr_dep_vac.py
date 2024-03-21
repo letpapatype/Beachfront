@@ -162,7 +162,7 @@ try:
         sql = f"""
         SELECT
             u.unit_code,
-            DATE_FORMAT(CONVERT_TZ(r.checkin_time, '+00:00', '-08:00'), '%H:%i:%s') AS checkin_time
+            DATE_FORMAT(CONVERT_TZ(r.checkin_time, '+00:00', '-07:00'), '%H:%i:%s') AS checkin_time
         FROM
             reservation r
             INNER JOIN units u ON u.id = r.cabin_id
@@ -191,7 +191,7 @@ try:
         sql = f"""
         SELECT
             u.unit_code,
-            DATE_FORMAT(CONVERT_TZ(r.checkout_time, '+00:00', '-08:00'), '%H:%i:%s') AS checkout_time
+            DATE_FORMAT(CONVERT_TZ(r.checkout_time, '+00:00', '-07:00'), '%H:%i:%s') AS checkout_time
         FROM
             reservation r
             INNER JOIN units u ON u.id = r.cabin_id
