@@ -1,4 +1,4 @@
-name: Arrival/Departure & Vacant Unit
+name: Arrival/Departure_Vacant Unit
 
 on:
   schedule:
