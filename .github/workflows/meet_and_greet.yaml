@@ -1,4 +1,4 @@
-# This workflow will installPython dependencies, run tests and lint with a single version of Python
+# This workflow will installPython dependencies, run tests and lint with a single version  of Python
 name: Meet_Greet Schedule
 
 on:
